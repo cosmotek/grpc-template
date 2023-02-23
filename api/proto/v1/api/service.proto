@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package v1.api;
+option go_package = "github.com/cosmotek/grpc-template/api/gen/proto/go/v1/api";
+
+import "v1/api/messages.proto";
+import "google/protobuf/wrappers.proto";
+
+// required for the http options
+import "google/api/annotations.proto";
+
+service HelloWorld {
+    // This is just a simple POST request example. The
+    // request parameters are all expected to be included
+    // in the body of the request.
+    // 
+    // POST http://localhost:8081/grpc/greet
+    rpc Greet(v1.api.Hello) returns (v1.api.Goodbye) {
+        option (google.api.http) = {
+            post: "/greet"
+            body: "*"
+        };
+    }
+
+    // This request is a example of path parameters.
+    // Path parameters are evaluated before the body
+    // option, so any fields not included in the path
+    // are expected in the body instead.
+    //
+    // POST http://localhost:8081/grpc/greetother/en
+    rpc GreetOther(v1.api.Hello) returns (v1.api.Goodbye) {
+        option (google.api.http) = {
+            post: "/greetother/{language}"
+            body: "*"
+        };
+    }
+
+    // This is an example of a GET request that uses query
+    // parameters. GET requests cannot have a request body,
+    // and must provide all parameters via the URL.
+    // The codegen evaluates the path parameters first. Any
+    // other parameters are expected as query params.
+    //
+    // GET http://localhost:8081/grpc/v1/greet/hello?language=en
+    rpc GreetOther2(v1.api.Hello) returns (v1.api.Goodbye) {
+        option (google.api.http) = {
+            get: "/v1/greet/{msg}"
+        };
+    }
+
+    // This is another simple GET example.
+    //
+    // GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
+    rpc GreetReverse(v1.api.Goodbye) returns (v1.api.Goodbye) {
+        option (google.api.http) = {
+            get: "/v1/greet/reverse/{msg}"
+        };
+    }
+}

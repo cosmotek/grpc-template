@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package v1.api;
+option go_package = "github.com/cosmotek/grpc-template/api/gen/proto/go/v1/api";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/any.proto";
+
+message Hello {
+    google.protobuf.StringValue msg = 1;
+    map<string,google.protobuf.Any> metadata = 2;
+
+    oneof format_rule {
+        string language = 4;
+        bool prevent_translations = 3;
+    }
+}
+
+message Goodbye {
+    google.protobuf.StringValue msg = 1;
+}
