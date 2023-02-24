@@ -16,3 +16,7 @@ plugins:
       - standalone=false
   - name: openapiv2
     out: gen/proto/openapiv2
+    opt:
+      # enables openapi codegen for methods without annotations
+      - generate_unbound_methods=true
+      

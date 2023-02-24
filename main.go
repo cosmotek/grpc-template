@@ -85,3 +85,7 @@ func (h HelloWorldServer) GreetOther2(ctx context.Context, input *grpcapi.Hello)
 func (h HelloWorldServer) GreetReverse(ctx context.Context, input *grpcapi.Goodbye) (*grpcapi.Goodbye, error) {
 	return input, nil
 }
+
+func (h HelloWorldServer) OriginalGreet(ctx context.Context, input *grpcapi.Goodbye) (*grpcapi.Goodbye, error) {
+	return input, nil
+}

@@ -43,6 +43,14 @@ type HelloWorldClient interface {
 	// This is another simple GET example.
 	// GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
 	GreetReverse(ctx context.Context, in *Goodbye, opts ...grpc.CallOption) (*Goodbye, error)
+	// An un-annotated RPC method. The generated openapi docs
+	// will default to a POST method with all request parameters
+	// included in the request body.
+	// Note that by default, methods without annotation will
+	// not be included in openapi documentation.
+	// The protoc option `generate_unbound_methods` may be included
+	// in the buf config to include these methods.
+	OriginalGreet(ctx context.Context, in *Goodbye, opts ...grpc.CallOption) (*Goodbye, error)
 }
 
 type helloWorldClient struct {
@@ -89,6 +97,15 @@ func (c *helloWorldClient) GreetReverse(ctx context.Context, in *Goodbye, opts .
 	return out, nil
 }
 
+func (c *helloWorldClient) OriginalGreet(ctx context.Context, in *Goodbye, opts ...grpc.CallOption) (*Goodbye, error) {
+	out := new(Goodbye)
+	err := c.cc.Invoke(ctx, "/v1.api.HelloWorld/OriginalGreet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HelloWorldServer is the server API for HelloWorld service.
 // All implementations should embed UnimplementedHelloWorldServer
 // for forward compatibility
@@ -114,6 +131,14 @@ type HelloWorldServer interface {
 	// This is another simple GET example.
 	// GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
 	GreetReverse(context.Context, *Goodbye) (*Goodbye, error)
+	// An un-annotated RPC method. The generated openapi docs
+	// will default to a POST method with all request parameters
+	// included in the request body.
+	// Note that by default, methods without annotation will
+	// not be included in openapi documentation.
+	// The protoc option `generate_unbound_methods` may be included
+	// in the buf config to include these methods.
+	OriginalGreet(context.Context, *Goodbye) (*Goodbye, error)
 }
 
 // UnimplementedHelloWorldServer should be embedded to have forward compatible implementations.
@@ -131,6 +156,9 @@ func (UnimplementedHelloWorldServer) GreetOther2(context.Context, *Hello) (*Good
 }
 func (UnimplementedHelloWorldServer) GreetReverse(context.Context, *Goodbye) (*Goodbye, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GreetReverse not implemented")
+}
+func (UnimplementedHelloWorldServer) OriginalGreet(context.Context, *Goodbye) (*Goodbye, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OriginalGreet not implemented")
 }
 
 // UnsafeHelloWorldServer may be embedded to opt out of forward compatibility for this service.
@@ -216,6 +244,24 @@ func _HelloWorld_GreetReverse_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HelloWorld_OriginalGreet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Goodbye)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HelloWorldServer).OriginalGreet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1.api.HelloWorld/OriginalGreet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HelloWorldServer).OriginalGreet(ctx, req.(*Goodbye))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HelloWorld_ServiceDesc is the grpc.ServiceDesc for HelloWorld service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -238,6 +284,10 @@ var HelloWorld_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GreetReverse",
 			Handler:    _HelloWorld_GreetReverse_Handler,
+		},
+		{
+			MethodName: "OriginalGreet",
+			Handler:    _HelloWorld_OriginalGreet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

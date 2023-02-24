@@ -116,6 +116,39 @@
         ]
       }
     },
+    "/v1.api.HelloWorld/OriginalGreet": {
+      "post": {
+        "summary": "An un-annotated RPC method. The generated openapi docs\nwill default to a POST method with all request parameters\nincluded in the request body.\nNote that by default, methods without annotation will\nnot be included in openapi documentation.\nThe protoc option `generate_unbound_methods` may be included\nin the buf config to include these methods.",
+        "operationId": "HelloWorld_OriginalGreet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGoodbye"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiGoodbye"
+            }
+          }
+        ],
+        "tags": [
+          "HelloWorld"
+        ]
+      }
+    },
     "/v1/greet/reverse/{msg}": {
       "get": {
         "summary": "This is another simple GET example.\nGET http://localhost:8081/grpc/v1/greet/reverse/helloworld",

@@ -73,4 +73,13 @@ service HelloWorld {
             get: "/v1/greet/reverse/{msg}"
         };
     }
+
+    // An un-annotated RPC method. The generated openapi docs
+    // will default to a POST method with all request parameters
+    // included in the request body.
+    // Note that by default, methods without annotation will
+    // not be included in openapi documentation.
+    // The protoc option `generate_unbound_methods` may be included
+    // in the buf config to include these methods.
+    rpc OriginalGreet(v1.api.Goodbye) returns (v1.api.Goodbye);
 }
