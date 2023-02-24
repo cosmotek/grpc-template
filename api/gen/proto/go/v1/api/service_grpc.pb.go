@@ -25,27 +25,23 @@ type HelloWorldClient interface {
 	// This is just a simple POST request example. The
 	// request parameters are all expected to be included
 	// in the body of the request.
-	//
-	// POST http://localhost:8081/greet
+	// POST http://localhost:8081/grpc/greet
 	Greet(ctx context.Context, in *Hello, opts ...grpc.CallOption) (*Goodbye, error)
 	// This request is a example of path parameters.
 	// Path parameters are evaluated before the body
 	// option, so any fields not included in the path
 	// are expected in the body instead.
-	//
-	// POST http://localhost:8081/greetother/en
+	// POST http://localhost:8081/grpc/greetother/en
 	GreetOther(ctx context.Context, in *Hello, opts ...grpc.CallOption) (*Goodbye, error)
 	// This is an example of a GET request that uses query
 	// parameters. GET requests cannot have a request body,
 	// and must provide all parameters via the URL.
 	// The codegen evaluates the path parameters first. Any
 	// other parameters are expected as query params.
-	//
-	// GET http://localhost:8081/v1/greet/hello?language=en
+	// GET http://localhost:8081/grpc/v1/greet/hello?language=en
 	GreetOther2(ctx context.Context, in *Hello, opts ...grpc.CallOption) (*Goodbye, error)
 	// This is another simple GET example.
-	//
-	// GET http://localhost:8081/v1/greet/reverse/helloworld
+	// GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
 	GreetReverse(ctx context.Context, in *Goodbye, opts ...grpc.CallOption) (*Goodbye, error)
 }
 
@@ -100,27 +96,23 @@ type HelloWorldServer interface {
 	// This is just a simple POST request example. The
 	// request parameters are all expected to be included
 	// in the body of the request.
-	//
-	// POST http://localhost:8081/greet
+	// POST http://localhost:8081/grpc/greet
 	Greet(context.Context, *Hello) (*Goodbye, error)
 	// This request is a example of path parameters.
 	// Path parameters are evaluated before the body
 	// option, so any fields not included in the path
 	// are expected in the body instead.
-	//
-	// POST http://localhost:8081/greetother/en
+	// POST http://localhost:8081/grpc/greetother/en
 	GreetOther(context.Context, *Hello) (*Goodbye, error)
 	// This is an example of a GET request that uses query
 	// parameters. GET requests cannot have a request body,
 	// and must provide all parameters via the URL.
 	// The codegen evaluates the path parameters first. Any
 	// other parameters are expected as query params.
-	//
-	// GET http://localhost:8081/v1/greet/hello?language=en
+	// GET http://localhost:8081/grpc/v1/greet/hello?language=en
 	GreetOther2(context.Context, *Hello) (*Goodbye, error)
 	// This is another simple GET example.
-	//
-	// GET http://localhost:8081/v1/greet/reverse/helloworld
+	// GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
 	GreetReverse(context.Context, *Goodbye) (*Goodbye, error)
 }
 

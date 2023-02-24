@@ -1,13 +1,27 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "v1/api/service.proto",
-    "version": "version not set"
+    "title": "Echo API",
+    "version": "1.0",
+    "contact": {
+      "name": "gRPC-Gateway project",
+      "url": "https://github.com/grpc-ecosystem/grpc-gateway",
+      "email": "none@example.com"
+    },
+    "license": {
+      "name": "BSD 3-Clause License",
+      "url": "https://github.com/grpc-ecosystem/grpc-gateway/blob/main/LICENSE.txt"
+    }
   },
   "tags": [
     {
       "name": "HelloWorld"
     }
+  ],
+  "basePath": "/grpc",
+  "schemes": [
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -18,8 +32,7 @@
   "paths": {
     "/greet": {
       "post": {
-        "summary": "This is just a simple POST request example. The\nrequest parameters are all expected to be included\nin the body of the request.",
-        "description": "POST http://localhost:8081/greet",
+        "summary": "This is just a simple POST request example. The\nrequest parameters are all expected to be included\nin the body of the request.\nPOST http://localhost:8081/grpc/greet",
         "operationId": "HelloWorld_Greet",
         "responses": {
           "200": {
@@ -52,8 +65,7 @@
     },
     "/greetother/{language}": {
       "post": {
-        "summary": "This request is a example of path parameters.\nPath parameters are evaluated before the body\noption, so any fields not included in the path\nare expected in the body instead.",
-        "description": "POST http://localhost:8081/greetother/en",
+        "summary": "This request is a example of path parameters.\nPath parameters are evaluated before the body\noption, so any fields not included in the path\nare expected in the body instead.\nPOST http://localhost:8081/grpc/greetother/en",
         "operationId": "HelloWorld_GreetOther",
         "responses": {
           "200": {
@@ -106,8 +118,7 @@
     },
     "/v1/greet/reverse/{msg}": {
       "get": {
-        "summary": "This is another simple GET example.",
-        "description": "GET http://localhost:8081/v1/greet/reverse/helloworld",
+        "summary": "This is another simple GET example.\nGET http://localhost:8081/grpc/v1/greet/reverse/helloworld",
         "operationId": "HelloWorld_GreetReverse",
         "responses": {
           "200": {
@@ -138,8 +149,7 @@
     },
     "/v1/greet/{msg}": {
       "get": {
-        "summary": "This is an example of a GET request that uses query\nparameters. GET requests cannot have a request body,\nand must provide all parameters via the URL.\nThe codegen evaluates the path parameters first. Any\nother parameters are expected as query params.",
-        "description": "GET http://localhost:8081/v1/greet/hello?language=en",
+        "summary": "This is an example of a GET request that uses query\nparameters. GET requests cannot have a request body,\nand must provide all parameters via the URL.\nThe codegen evaluates the path parameters first. Any\nother parameters are expected as query params.\nGET http://localhost:8081/grpc/v1/greet/hello?language=en",
         "operationId": "HelloWorld_GreetOther2",
         "responses": {
           "200": {

@@ -3,6 +3,7 @@ module github.com/cosmotek/grpc-template
 go 1.19
 
 require (
+	github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.1
 	google.golang.org/genproto v0.0.0-20230221151758-ace64dc21148
