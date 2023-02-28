@@ -5,13 +5,13 @@ option go_package = "github.com/cosmotek/grpc-template/api/gen/proto/go/v1/api";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     base_path: "/grpc";
     info: {
-        title: "Echo API";
-        version: "1.0";
-        description: "";
+        title: "HelloWorld API";
+        version: "1.0-rc";
+        description: "Just a little demo project";
         contact: {
-            name: "gRPC-Gateway project";
-            url: "https://github.com/grpc-ecosystem/grpc-gateway";
-            email: "none@example.com";
+            name: "Seth Moeckel";
+            url: "https://cosmotek.github.io";
+            email: "seth.moeckel@gmail.com";
         };
         license: {
             name: "BSD 3-Clause License";
@@ -46,10 +46,10 @@ service HelloWorld {
     // Path parameters are evaluated before the body
     // option, so any fields not included in the path
     // are expected in the body instead.
-    // POST http://localhost:8081/grpc/greetother/en
+    // PUT http://localhost:8081/grpc/greetother/en
     rpc GreetOther(v1.api.Hello) returns (v1.api.Goodbye) {
         option (google.api.http) = {
-            post: "/greetother/{language}"
+            put: "/greetother/{language}"
             body: "*"
         };
     }
@@ -67,10 +67,10 @@ service HelloWorld {
     }
 
     // This is another simple GET example.
-    // GET http://localhost:8081/grpc/v1/greet/reverse/helloworld
+    // DELETE http://localhost:8081/grpc/v1/greet/reverse/helloworld
     rpc GreetReverse(v1.api.Goodbye) returns (v1.api.Goodbye) {
         option (google.api.http) = {
-            get: "/v1/greet/reverse/{msg}"
+            delete: "/v1/greet/reverse/{msg}"
         };
     }
 

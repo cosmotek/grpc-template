@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 
 	"github.com/cosmotek/grpc-template/api"
@@ -11,18 +13,19 @@ import (
 	"github.com/flowchartsman/swaggerui"
 	"github.com/go-chi/chi/v5"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-func run() error {
+func runHTTP(server grpcapi.HelloWorldServer) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	server := &HelloWorldServer{}
 
 	// register the handler
 	err := grpcapi.RegisterHelloWorldHandlerServer(ctx, mux, server)
@@ -38,13 +41,32 @@ func run() error {
 	return http.ListenAndServe(":8081", r)
 }
 
+func runGRPC(server grpcapi.HelloWorldServer) error {
+	listener, err := net.Listen("tcp", ":5051")
+	if err != nil {
+		return fmt.Errorf("failed to listen: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+	grpcapi.RegisterHelloWorldServer(grpcServer, server)
+
+	// register reflection service
+	reflection.Register(grpcServer)
+
+	// Start gRPC server
+	return grpcServer.Serve(listener)
+}
+
 func main() {
-	log.Println("starting service on :8081")
+	server := &HelloWorldServer{}
+
+	log.Println("starting http service on :8081")
+	log.Println("starting grpc service on :5051")
 	log.Println("swaggerui available at http://localhost:8081/swagger/")
 
-	if err := run(); err != nil {
-		log.Fatal(err)
-	}
+	// run both listeners (TODO improve error handling here...)
+	go runGRPC(server)
+	runHTTP(server)
 }
 
 type HelloWorldServer struct{}

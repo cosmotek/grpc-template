@@ -1,12 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Echo API",
-    "version": "1.0",
+    "title": "HelloWorld API",
+    "description": "Just a little demo project",
+    "version": "1.0-rc",
     "contact": {
-      "name": "gRPC-Gateway project",
-      "url": "https://github.com/grpc-ecosystem/grpc-gateway",
-      "email": "none@example.com"
+      "name": "Seth Moeckel",
+      "url": "https://cosmotek.github.io",
+      "email": "seth.moeckel@gmail.com"
     },
     "license": {
       "name": "BSD 3-Clause License",
@@ -64,8 +65,8 @@
       }
     },
     "/greetother/{language}": {
-      "post": {
-        "summary": "This request is a example of path parameters.\nPath parameters are evaluated before the body\noption, so any fields not included in the path\nare expected in the body instead.\nPOST http://localhost:8081/grpc/greetother/en",
+      "put": {
+        "summary": "This request is a example of path parameters.\nPath parameters are evaluated before the body\noption, so any fields not included in the path\nare expected in the body instead.\nPUT http://localhost:8081/grpc/greetother/en",
         "operationId": "HelloWorld_GreetOther",
         "responses": {
           "200": {
@@ -150,8 +151,8 @@
       }
     },
     "/v1/greet/reverse/{msg}": {
-      "get": {
-        "summary": "This is another simple GET example.\nGET http://localhost:8081/grpc/v1/greet/reverse/helloworld",
+      "delete": {
+        "summary": "This is another simple GET example.\nDELETE http://localhost:8081/grpc/v1/greet/reverse/helloworld",
         "operationId": "HelloWorld_GreetReverse",
         "responses": {
           "200": {
